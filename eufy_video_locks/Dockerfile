@@ -1,7 +1,7 @@
 # Base app wrapper 0.4.0; overlay the separately versioned JavaScript SDK 0.3.0.
-ARG TARGETARCH=amd64
-FROM ghcr.io/mega-yfue/amd64-addon-eufy-sdk-bridge:0.4.0 AS base-amd64
-FROM ghcr.io/mega-yfue/aarch64-addon-eufy-sdk-bridge:0.4.0 AS base-arm64
+ARG TARGETARCH
+FROM --platform=linux/amd64 ghcr.io/mega-yfue/amd64-addon-eufy-sdk-bridge:0.4.0 AS base-amd64
+FROM --platform=linux/arm64 ghcr.io/mega-yfue/aarch64-addon-eufy-sdk-bridge:0.4.0 AS base-arm64
 FROM base-${TARGETARCH} AS final
 WORKDIR /app
 RUN curl -fsSL https://registry.npmjs.org/@mega-yfue/eufy-sdk/-/eufy-sdk-0.3.0.tgz -o /tmp/sdk.tgz \
