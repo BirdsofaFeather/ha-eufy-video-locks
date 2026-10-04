@@ -1,0 +1,163 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "streaming": {
+        "name": "Streaming"
+      },
+      "connectivity": {
+        "name": "Connectivity"
+      }
+    },
+    "button": {
+      "reboot": {
+        "name": "Reboot"
+      },
+      "refresh_last_event": {
+        "name": "Refresh Last Event"
+      },
+      "tilt_up": {
+        "name": "Tilt up"
+      },
+      "tilt_down": {
+        "name": "Tilt down"
+      },
+      "pan_left": {
+        "name": "Pan left"
+      },
+      "pan_right": {
+        "name": "Pan right"
+      },
+      "preset_goto": {
+        "name": "Go to preset"
+      }
+    },
+    "event": {
+      "doorbell": {
+        "name": "Doorbell"
+      },
+      "detection": {
+        "name": "Detection"
+      }
+    },
+    "image": {
+      "last_event": {
+        "name": "Last event"
+      }
+    },
+    "select": {
+      "preset": {
+        "name": "Preset"
+      }
+    },
+    "sensor": {
+      "info": {
+        "name": "Info"
+      },
+      "last_person": {
+        "name": "Last person"
+      },
+      "stream_url": {
+        "name": "Stream URL"
+      },
+      "light_effect": {
+        "name": "Light Effect"
+      }
+    },
+    "switch": {
+      "detect_human": {
+        "name": "Detect human"
+      },
+      "detect_vehicle": {
+        "name": "Detect vehicle"
+      },
+      "detect_pet": {
+        "name": "Detect pet"
+      },
+      "face_recognition": {
+        "name": "Face recognition"
+      }
+    }
+  },
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to the eufy bridge",
+        "description": "Enter the host and port of your ha-eufy-sdk bridge (the WebSocket).",
+        "data": {
+          "host": "Bridge hostname",
+          "port": "Bridge port",
+          "rtsp_port": "Video port",
+          "access_token": "Bridge access token",
+          "rtsp_password": "Video password"
+        }
+      },
+      "twofa": {
+        "title": "Two-factor authentication",
+        "description": "A verification code was sent to your eufy account. Enter it below (tick Resend to request a new one).",
+        "data": {
+          "code": "Verification code",
+          "resend": "Resend code"
+        }
+      },
+      "captcha": {
+        "title": "Captcha",
+        "description": "Enter the characters from the image below (tick Refresh for a new one).\n\n{image}",
+        "data": {
+          "answer": "Captcha",
+          "refresh": "Refresh image"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate the eufy bridge",
+        "description": "The bridge at {host} needs to log in again (its session expired, so eufy is asking for 2FA/captcha). Make sure the bridge is running and reachable, then submit to continue."
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the bridge at that host/port.",
+      "invalid_2fa": "That verification code was not accepted.",
+      "invalid_captcha": "That captcha was not accepted.",
+      "invalid_credentials": "Use the two distinct pairing keys from the app Open Web UI page."
+    },
+    "abort": {
+      "already_configured": "This bridge is already configured.",
+      "cannot_connect": "Could not reach the bridge.",
+      "reauth_successful": "The bridge is authenticated again."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "eufy bridge options",
+        "description": "How often the bridge polls the eufy cloud for device state. Lower is fresher but adds cloud traffic; the cloud itself only updates every few minutes.",
+        "data": {
+          "poll_interval_minutes": "Cloud poll interval (minutes)",
+          "soc_refresh_seconds": "Solarbank SOC-limit refresh (seconds)"
+        },
+        "data_description": {
+          "soc_refresh_seconds": "How often HA re-reads a Solarbank's discharge/charge limits from the cloud, so an app-side change reflects on the sliders. Only applies if you have a Solarbank."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "preset_empty": {
+      "message": "Preset {slot} has no stored position. Save one there from the eufy app first."
+    }
+  },
+  "device_automation": {
+    "trigger_type": {
+      "ringing": "Doorbell ringing",
+      "motion": "Motion detected",
+      "person": "Person detected",
+      "pet": "Pet detected",
+      "dog": "Dog detected",
+      "vehicle": "Vehicle detected",
+      "stranger": "Stranger detected",
+      "sound": "Sound detected",
+      "crying": "Crying detected",
+      "package_delivered": "Package delivered",
+      "package_taken": "Package taken",
+      "package_stranded": "Package left out"
+    }
+  }
+}

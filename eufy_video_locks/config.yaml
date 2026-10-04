@@ -1,0 +1,56 @@
+name: Eufy Video Locks – S330 & E330
+version: "0.1.0-rc.1"
+slug: eufy_video_locks
+description: Configurable S330/T8021 and standalone E330 control, status and video bridge.
+url: https://github.com/BirdsofaFeather/ha-eufy-video-locks
+arch: [amd64, aarch64]
+image: ghcr.io/birdsofafeather/ha-eufy-video-locks
+init: false
+startup: application
+boot: auto
+stage: experimental
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:lock
+panel_admin: true
+hassio_api: false
+homeassistant_api: false
+ports:
+  3000/tcp: null
+  8554/tcp: null
+ports_description:
+  3000/tcp: Authenticated bridge; keep host mapping disabled for HA OS.
+  8554/tcp: Authenticated video; keep host mapping disabled for HA OS.
+options:
+  email: ""
+  password: ""
+  country: US
+  s330_serial: ""
+  s330_chime_serial: ""
+  s330_channel: 0
+  e330_serial: ""
+  e330_identity: ""
+  mqtt_host: security-mqtt-us.anker.com
+  mqtt_fallback_ips: []
+  enable_control: false
+  poll_ms: 600000
+  stream_idle_ms: 300000
+  rtsp_idle_off_ms: 300000
+  event_log: false
+schema:
+  email: str
+  password: password
+  country: str
+  s330_serial: str
+  s330_chime_serial: str
+  s330_channel: int(0,255)
+  e330_serial: str
+  e330_identity: password
+  mqtt_host: str
+  mqtt_fallback_ips: [str]
+  enable_control: bool
+  poll_ms: int(0,)
+  stream_idle_ms: int(0,)
+  rtsp_idle_off_ms: int(0,)
+  stream_battery_budget_ms: "int(1,)?"
+  event_log: bool

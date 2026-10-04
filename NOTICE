@@ -1,0 +1,5 @@
+Eufy Video Locks is an independent community fork, not an official Eufy app.
+Bridge and SDK: Copyright 2026 mega-yfue; Apache-2.0.
+Python integration and app wrapper: Copyright 2026 mega-yfue; MIT.
+Local repair adapters were generalized for configurable distribution in October 2026.
+The bridge image retains its upstream dependency notices.

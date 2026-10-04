@@ -1,0 +1,14 @@
+node_modules/
+__pycache__/
+*.pyc
+.env*
+/data/
+private/
+*private*.json
+*session*.json
+*.pcap*
+*.dmg
+*.tar*
+*.zip
+options.json
+.test-sdk/

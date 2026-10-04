@@ -1,0 +1,15 @@
+{
+  "domain": "eufy_video_locks",
+  "name": "Eufy Video Locks",
+  "codeowners": [
+    "@BirdsofaFeather"
+  ],
+  "config_flow": true,
+  "documentation": "https://github.com/BirdsofaFeather/ha-eufy-video-locks",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/BirdsofaFeather/ha-eufy-video-locks/issues",
+  "version": "0.1.0-rc.1",
+  "dependencies": [
+    "stream"
+  ]
+}

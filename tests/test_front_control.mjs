@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {trySendFrontDoorActuation} from '../eufy_video_locks/front-control.mjs';
+const FRONT='T853000000000000',CHIME='T802100000000000';
+const sends=[];
+const session={cfg:{stationSn:CHIME},level1Key:Buffer.alloc(16,1),sendSetPayload:(...args)=>sends.push(args)};
+const route={session,parentSn:CHIME,channel:0,homeBaseAttached:true};
+const cmd={deviceSn:FRONT,engage:false,adminUserId:'test-account',shortUserId:'test-member',username:'test-name'};
+const router={deviceFor:async sn=>{assert.equal(sn,FRONT);return {model:'T8530'}},resolveSession:async(sn,opts)=>{assert.equal(sn,FRONT);assert.deepEqual(opts,{waitLevel2:false,requireLevel2ForAttached:false});return route}};
+assert.equal(await trySendFrontDoorActuation(router,'T853100000000000',cmd),false);assert.equal(sends.length,0);
+assert.equal(await trySendFrontDoorActuation(router,FRONT,cmd),true);
+assert.deepEqual(sends[0],[1961,{shortUserId:'test-member',slOperation:0,userId:'test-account',userName:'test-name'},{accountId:'test-account',channel:0}]);
+assert.equal(await trySendFrontDoorActuation(router,FRONT,{...cmd,engage:true}),true);assert.equal(sends[1][1].slOperation,1);assert.equal(sends.length,2);
+for(const change of [{deviceSn:'other'},{engage:'false'},{adminUserId:''},{shortUserId:''},{username:null}]) await assert.rejects(()=>trySendFrontDoorActuation(router,FRONT,{...cmd,...change}),/nothing sent/);
+const count=sends.length;
+for(const change of [{parentSn:'other'},{channel:1},{homeBaseAttached:false},{session:{...session,level1Key:undefined}},{session:{...session,cfg:{stationSn:'other'}}}]) {
+ const bad={...router,resolveSession:async()=>({...route,...change})};await assert.rejects(()=>trySendFrontDoorActuation(bad,FRONT,cmd),/nothing sent/);
+}
+await assert.rejects(()=>trySendFrontDoorActuation({...router,deviceFor:async()=>({model:'T8531'})},FRONT,cmd),/nothing sent/);
+assert.equal(sends.length,count);
+console.log('S330 exact device/chime/channel, member identity, encryption-key and single-send guards passed.');
+import {readFileSync,writeFileSync,mkdtempSync,mkdirSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {dirname,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {spawnSync} from 'node:child_process';
+const here=dirname(fileURLToPath(import.meta.url)),fixture=mkdtempSync(join(tmpdir(),'s330-control-'));
+const pkg=join(fixture,'node_modules/@mega-yfue/eufy-sdk');mkdirSync(join(pkg,'dist'),{recursive:true});
+writeFileSync(join(pkg,'package.json'),JSON.stringify({version:'0.3.0'}));
+const original=readFileSync((process.env.EUFY_TEST_SDK || join(here,'../.test-sdk/package/dist/index.js')),'utf8');writeFileSync(join(pkg,'dist/index.js'),original);
+const before='  async sendFf09Actuate(sn, cmd) {\n    const resolved = await this.resolveSession(sn, { waitLevel2: true });';
+const after='  async sendFf09Actuate(sn, cmd) {\n    if (await trySendFrontDoorActuation(this, sn, cmd)) return;\n    const resolved = await this.resolveSession(sn, { waitLevel2: true });';
+assert.equal(spawnSync(process.execPath,[join(here,'../eufy_video_locks/patch-front-control.mjs')],{env:{...process.env,BRIDGE_PATCH_ROOT:fixture}}).status,0);
+const patched=readFileSync(join(pkg,'dist/index.js'),'utf8');assert.equal(patched,'import { trySendFrontDoorActuation } from "../../../../src/front-control.mjs";\n'+original.replace(before,after));
+assert.equal(spawnSync(process.execPath,['--check',join(pkg,'dist/index.js')]).status,0);
+assert.notEqual(spawnSync(process.execPath,[join(here,'../eufy_video_locks/patch-front-control.mjs')],{env:{...process.env,BRIDGE_PATCH_ROOT:fixture}}).status,0);assert.equal(readFileSync(join(pkg,'dist/index.js'),'utf8'),patched);
+console.log('Guarded SDK patch changes only the intended method and retains all other source.');
