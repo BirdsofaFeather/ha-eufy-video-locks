@@ -32,3 +32,15 @@ Use Home Assistant's app update and HACS integration update once that release is
 - **Pairing fails:** use this app's current internal hostname and both distinct keys; avoid exposing port 3000 as a workaround.
 - **Control result times out:** verify the physical lock before sending another command; do not add automatic actuator retries.
 - **Rollback:** restore app and integration from the previous full backup together, then validate state before re-enabling automations.
+
+## Commit-email privacy
+
+Use your GitHub `users.noreply.github.com` address for both author and committer metadata before pushing. Enable **Keep my email addresses private** and **Block command line pushes that expose my email** in GitHub **Settings → Emails**. A private profile alone does not remove an email already embedded in old commits.
+
+The source-check workflow fetches complete history and runs `scripts/audit-git-privacy.py`, which refuses non-private commit email metadata without printing the address. To check locally from a Git checkout:
+
+```sh
+python scripts/audit-git-privacy.py
+```
+
+Rewriting published commits requires coordination with existing clones and tags. It does not guarantee deletion of old GitHub cached objects or copies elsewhere; see [GitHub's removal guidance](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository).

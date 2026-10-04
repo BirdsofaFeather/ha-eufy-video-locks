@@ -21,4 +21,4 @@ config = (root/'eufy_video_locks/config.yaml').read_text()
 assert f'version: "{manifest["version"]}"' in config, 'App and integration versions differ'
 assert 'hassio_api: false' in config and 'homeassistant_api: false' in config
 assert not re.search(r'^map:|^host_network: true|^privileged:', config, re.M)
-print('Publication audit passed: no household addresses, device identities or private runtime files; versions agree.')
+print('Static publication guards passed: configured private-file/address/serial patterns absent; versions agree.')

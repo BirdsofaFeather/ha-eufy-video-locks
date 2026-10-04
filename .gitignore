@@ -12,3 +12,4 @@ private/
 *.zip
 options.json
 .test-sdk/
+*.tgz

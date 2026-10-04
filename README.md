@@ -34,7 +34,7 @@ Keep the app's Network port mappings disabled when Home Assistant and the app ru
 
 - [Configuration, operation and migration](eufy_video_locks/DOCS.md)
 - [What failed and how the repairs work](docs/TECHNICAL.md)
-- [E330 private command identity](docs/E330-IDENTITY.md)
+- [E330 identity capture: Android and iPhone procedures, private import and recovery](docs/E330-IDENTITY.md)
 - [Backup, hardware replacement and reinstallation](docs/RESTORE.md)
 - [Maintaining SDK versions and publishing updates](docs/PUBLISHING.md)
 - [Security boundaries](SECURITY.md)
@@ -50,6 +50,7 @@ With Node 24.5+ and Python 3.12+:
 ```sh
 bash scripts/prepare-test-sdk.sh
 node tests/test-repairs.mjs
+node tests/test_identity_capture.mjs
 python tests/test-integration.py
 python scripts/audit-package.py
 ```

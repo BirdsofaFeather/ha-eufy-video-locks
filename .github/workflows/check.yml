@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
@@ -17,5 +19,7 @@ jobs:
           python-version: '3.12'
       - run: bash scripts/prepare-test-sdk.sh
       - run: node tests/test-repairs.mjs
+      - run: node tests/test_identity_capture.mjs
       - run: python tests/test-integration.py
       - run: python scripts/audit-package.py
+      - run: python scripts/audit-git-privacy.py
