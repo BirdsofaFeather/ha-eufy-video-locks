@@ -33,3 +33,9 @@ Reinstalling the original upstream `eufy-sdk-bridge` creates a different app wit
 The upstream integration has domain `eufy_sdk`; this integration has domain `eufy_video_locks`. Updating one does not modify the other's files. Follow this repository's releases for app and matching integration updates. A future upstream repair may make the fork unnecessary, but migrating requires its own verified tests.
 
 Never paste an encrypted backup's password, app credentials, private command identity or pairing keys into a GitHub issue.
+
+## Reapply the battery correction
+
+The battery repair is included in app release 0.1.0-rc.2 and later reviewed releases. Install or update the public app after its matching container image is published; the build applies the SDK health and video lifecycle patches automatically. No manual SDK edit or Home Assistant Core modification is required. Restore the matching integration and your private app configuration, credentials and captured E330 identity using the steps above. A normal app update preserves `/data`. Reinstalling after deletion or hardware failure requires restoring that private data or pairing again.
+
+After restoring, verify the running app version, authentication and cloud poll health. Record fresh Eufy-app battery readings, avoid continuous video, and compare after 24 hours without recharging. Home Assistant battery values can remain cached: use the Eufy app to confirm the comparison. Roll back app and integration together from a full backup if needed; do not replace a newer SDK blindly with an old patch script.

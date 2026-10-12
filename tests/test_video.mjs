@@ -10,7 +10,7 @@ for (const [sn, model] of [["T853000000000000","T8530"],["T853100000000000","T85
   const client = {
     getDevice: async (value) => {assert.equal(value,sn);return {model,has:(cap)=>["lock","video"].includes(cap)};},
     connectStation: async (value,signal) => {assert.equal(value,sn);assert.ok(signal instanceof AbortSignal);calls.push("connect");},
-    mediaProviderFor: (value) => {assert.equal(value,sn);return {openReadable:async(options)=>{calls.push("media");assert.equal(options.powered,false);assert.equal(options.batteryBudgetMs,1000);return "feed";}};},
+    mediaProviderFor: (value) => {assert.equal(value,sn);return {openReadable:async(options)=>{calls.push("media");assert.equal(options.powered,"battery");assert.equal(options.lingerMs,0);assert.equal(options.batteryBudgetMs,1000);return "feed";}};},
   };
   const provider = await videoProviderFor(client,sn);
   assert.deepEqual(calls,[]); // Inventory alone must not open a station/camera.

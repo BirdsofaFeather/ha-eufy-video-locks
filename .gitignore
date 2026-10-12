@@ -13,3 +13,5 @@ private/
 options.json
 .test-sdk/
 *.tgz
+
+.test-runtime/

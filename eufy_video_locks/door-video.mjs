@@ -106,13 +106,13 @@ export async function videoProviderFor(client, sn, { dedicatedVideo = false } = 
     snapshotStored: provider.snapshotStored?.bind(provider),
     snapshotLive: async (options = {}) => {
       await client.connectStation(sn, AbortSignal.timeout(45000));
-      return provider.snapshotLive({ ...options, powered: false });
+      return provider.snapshotLive({ ...options, powered: "battery", lingerMs: 0 });
     },
     openReadable: async (options = {}) => {
       // Stream clients intentionally disable automatic realtime to avoid stealing
       // the control client's push registration. Open only this station explicitly.
       await client.connectStation(sn, AbortSignal.timeout(45000));
-      return provider.openReadable({ ...options, powered: false });
+      return provider.openReadable({ ...options, powered: "battery", lingerMs: 0 });
     },
   };
 }

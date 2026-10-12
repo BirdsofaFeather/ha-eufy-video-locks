@@ -16,9 +16,12 @@ RUN node src/patch-control.mjs \
  && node src/patch-status.mjs \
  && node src/patch-front-control.mjs \
  && node src/patch-sdk-version.mjs \
- && for file in src/*.mjs go2rtc-config.mjs node_modules/@mega-yfue/eufy-sdk/dist/index.js; do node --check "$file" || exit 1; done \
+ && cp src/streams-battery-safe.mjs streams.mjs \
+ && cp src/stream-lifecycle.mjs stream-lifecycle.mjs \
+ && node src/patch-battery-safety.mjs \
+ && for file in streams.mjs stream-lifecycle.mjs src/*.mjs go2rtc-config.mjs node_modules/@mega-yfue/eufy-sdk/dist/index.js; do node --check "$file" || exit 1; done \
  && node --input-type=module -e "const sdk=await import('@mega-yfue/eufy-sdk');for(const n of ['SecureMqtt','buildAppShapedClientId','mqttUuidFrom'])if(typeof sdk[n]!=='function')throw Error('SDK export unavailable: '+n);"
-ARG BUILD_VERSION=0.1.0-rc.1
+ARG BUILD_VERSION=0.1.0-rc.2
 LABEL org.opencontainers.image.source="https://github.com/BirdsofaFeather/ha-eufy-video-locks" \
       org.opencontainers.image.title="Eufy Video Locks" \
       org.opencontainers.image.version="${BUILD_VERSION}" \

@@ -2,7 +2,7 @@
 
 Home Assistant app and matching HACS integration for **S330 / T8530 with T8021 chime** and **standalone E330 / T8531**: lock control, status and video adapters. Independent community project; not an official Eufy product.
 
-**Release candidate 0.1.0-rc.1.** The underlying repairs were verified on one installation. This configurable package has automated regression checks; other devices, firmware, accounts, regions and channels need their own validation. Do not replace a working installation without a backup.
+**Release candidate 0.1.0-rc.2.** The underlying repairs were verified on one installation. This configurable package has automated regression checks; other devices, firmware, accounts, regions and channels need their own validation. Do not replace a working installation without a backup.
 
 ## What to install
 
@@ -39,9 +39,13 @@ Keep the app's Network port mappings disabled when Home Assistant and the app ru
 - [Maintaining SDK versions and publishing updates](docs/PUBLISHING.md)
 - [Security boundaries](SECURITY.md)
 
+## Battery behavior
+
+Release 0.1.0-rc.2 includes cloud-poll liveness and battery-video shutdown corrections. Video remains on demand and time limited; avoid continuously displayed live camera cards that automatically reopen streams. See [battery repair details](docs/TECHNICAL.md#battery-drain-correction-010-rc2). Cached Home Assistant battery values are not a fresh physical measurement.
+
 ## Versions and updates
 
-The app version, bridge release and JavaScript SDK version are separate. This package is **0.1.0-rc.1**, based on the upstream app wrapper **0.4.0**, and installs the JavaScript SDK **0.3.0** with a verified archive checksum. It does not stay on SDK 0.2.0. New upstream SDK releases require review of the guarded patches and supervised device tests before a new package release.
+The app version, bridge release and JavaScript SDK version are separate. This package is **0.1.0-rc.2**, based on the upstream app wrapper **0.4.0**, and installs the JavaScript SDK **0.3.0** with a verified archive checksum. It does not stay on SDK 0.2.0. New upstream SDK releases require review of the guarded patches and supervised device tests before a new package release.
 
 ## Development
 
@@ -50,6 +54,7 @@ With Node 24.5+ and Python 3.12+:
 ```sh
 bash scripts/prepare-test-sdk.sh
 node tests/test-repairs.mjs
+node scripts/test-battery-safety.mjs
 node tests/test_identity_capture.mjs
 python tests/test-integration.py
 python scripts/audit-package.py

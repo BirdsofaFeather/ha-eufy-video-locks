@@ -1,5 +1,5 @@
 name: Eufy Video Locks – S330 & E330
-version: "0.1.0-rc.1"
+version: "0.1.0-rc.2"
 slug: eufy_video_locks
 description: Configurable S330/T8021 and standalone E330 control, status and video bridge.
 url: https://github.com/BirdsofaFeather/ha-eufy-video-locks

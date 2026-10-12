@@ -4,7 +4,7 @@
 
 1. Create the public `BirdsofaFeather/ha-eufy-video-locks` repository and upload this clean source tree, including `.github/workflows` and license files. Do not upload private recovery backups or captures.
 2. Run the **Check source and repair guards** workflow and resolve all failures.
-3. Actions → **Build and publish installable app** → Run workflow on the intended commit. Alternatively push a tag exactly matching `v` plus the manifest version, such as `v0.1.0-rc.1`.
+3. Actions → **Build and publish installable app** → Run workflow on the intended commit. Alternatively push a tag exactly matching `v` plus the manifest version, such as `v0.1.0-rc.2`.
 4. The build installs checksum-verified SDK 0.3.0, applies guarded patches and publishes amd64/arm64 images under one GHCR tag. Confirm both architectures are present.
 5. In the GitHub package's settings, ensure container visibility is **Public**. A public source repository does not guarantee a newly created package is public. Verify an anonymous pull before announcing installation.
 6. Create a GitHub release for the same version, marked pre-release while experimental. HACS uses the repository's integration manifest; App store uses the app's `config.yaml` image/version.
@@ -18,7 +18,7 @@ App wrapper version, bridge version and JavaScript SDK version are distinct. Do 
 
 1. Create a development branch. Review the upstream SDK/bridge changelog and exact diff.
 2. Choose explicit upstream base-image and SDK versions. Update the SDK archive URL/checksum in Dockerfile and test preparation script.
-3. Review all build patch anchors and runtime interfaces. The current scripts intentionally reject SDK versions other than 0.3.0. Update their guards only after reviewing the new methods, encryption and media behavior.
+3. Review all build patch anchors and runtime interfaces. The current scripts intentionally reject SDK versions other than 0.3.0. Update their guards only after reviewing the new methods, encryption, `pollOnce` success semantics and `SharedLiveSource` battery-budget behavior.
 4. Run synthetic tests and container builds for both architectures. Adapt the real-SDK command-frame tests to prove the new version still produces the expected guarded format.
 5. Install on a test HA instance with your own private profiles. Physically validate S330 and E330 unlock/relock, manual/app status and separate live feeds. Disable auto-lock during relock verification so it cannot mask failure.
 6. Increment app `config.yaml` and integration `manifest.json` together, update changelog and documentation, and publish a matching image tag. Retain the previous release for rollback.

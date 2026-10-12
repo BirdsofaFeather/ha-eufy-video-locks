@@ -5,7 +5,7 @@ from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
 for path in root.rglob('*'):
-    if not path.is_file() or any(p in {'.git', '__pycache__', 'node_modules', '.test-sdk'} for p in path.parts):
+    if not path.is_file() or any(p in {'.git', '__pycache__', 'node_modules', '.test-sdk', '.test-runtime'} for p in path.parts):
         continue
     assert not re.search(r'(private.*\.json$|\.pcap|\.dmg$|options\.json$|session.*\.json$)', path.name, re.I), f'Private runtime file: {path.relative_to(root)}'
     try:
